@@ -1,15 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { api } from "@/lib/axiosInstance";
 import { toast } from "sonner";
-import { Download, FileSpreadsheet, FileText, Calendar, Users, BarChart3 } from "lucide-react";
+import { useAuth } from "@/lib/authStore";
+import { Download, FileSpreadsheet, FileText, BarChart3, TrendingUp } from "lucide-react";
+
+// Analytics Components
+import { AnalyticsFilters } from "@/components/analytics/AnalyticsFilters";
+import { SummaryStats } from "@/components/analytics/SummaryStats";
+import { PieChartComponent } from "@/components/analytics/PieChartComponent";
+import { BarChartComponent } from "@/components/analytics/BarChartComponent";
+import { LineChartComponent } from "@/components/analytics/LineChartComponent";
+import { exportToPDF } from "@/lib/exportUtils";
+
+interface AnalyticsData {
+  leaveTypeDistribution: { type: string; count: number; percentage: number }[];
+  leaveStatusDistribution: { status: string; count: number; percentage: number }[];
+  monthlyLeaveData: { month: string; annual: number; sick: number; personal: number; emergency: number; total: number }[];
+  quarterlyTrends: { quarter: string; approved: number; rejected: number; pending: number }[];
+  departmentLeaveData: { department: string; totalRequests: number; approvedRequests: number; averageDays: number }[];
+  topLeaveUsers: { employeeName: string; totalDays: number; totalRequests: number }[];
+  leaveBalanceData: { balanceRange: string; employeeCount: number }[];
+  managerPerformance: { managerName: string; avgResponseTime: number; approvalRate: number; totalRequests: number }[];
+  totalStats: {
+    totalRequests: number;
+    totalApproved: number;
+    totalRejected: number;
+    totalPending: number;
+    averageRequestDays: number;
+    averageResponseTime: number;
+    mostPopularLeaveType: string;
+    peakLeaveMonth: string;
+  };
+}
 
 export default function ReportsPage() {
   const [isLoading, setIsLoading] = useState(false);

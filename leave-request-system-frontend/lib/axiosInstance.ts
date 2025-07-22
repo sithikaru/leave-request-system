@@ -211,6 +211,27 @@ export const api = {
         responseType: 'blob'
       }),
   },
+
+  // Analytics endpoints
+  analytics: {
+    // Get analytics data (managers and admins)
+    getAnalytics: (filters: {
+      startDate?: string;
+      endDate?: string;
+      departmentId?: number;
+      employeeId?: number;
+      leaveType?: string;
+      status?: string;
+    } = {}) =>
+      axiosInstance.get('/analytics', { params: filters }),
+
+    // Get employee-specific analytics
+    getEmployeeAnalytics: (filters: {
+      startDate?: string;
+      endDate?: string;
+    } = {}) =>
+      axiosInstance.get('/analytics/employee', { params: filters }),
+  },
 };
 
 // Export the configured axios instance for custom requests

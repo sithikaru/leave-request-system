@@ -46,13 +46,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       name: "New Leave Request",
       href: "/leave-request/new",
       icon: Plus,
-      showForRoles: true,
+      showForRoles: user?.role === 'employee',
     },
     {
       name: "My Requests",
       href: "/leave-request/view",
       icon: FileText,
-      showForRoles: true,
+      showForRoles: user?.role === 'employee',
     },
     {
       name: "Approvals",

@@ -15,7 +15,7 @@ interface UserProfile {
   id: number;
   name: string;
   email: string;
-  role: string;
+  role: 'employee' | 'manager' | 'admin';
   emailNotifications: boolean;
   annualLeaveBalance: number;
   sickLeaveBalance: number;
@@ -205,103 +205,188 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          {/* Leave Balance Overview */}
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Calendar className="h-5 w-5" />
-                  <span>Leave Balance</span>
-                </CardTitle>
-                <CardDescription>
-                  Your current leave entitlements and remaining days
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                    <div>
-                      <p className="text-sm font-medium text-blue-900">Annual Leave</p>
-                      <p className="text-xs text-blue-600">Vacation days</p>
+          {/* Leave Balance Overview - Only for Employees */}
+          {profile.role === 'employee' && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Calendar className="h-5 w-5" />
+                    <span>Leave Balance</span>
+                  </CardTitle>
+                  <CardDescription>
+                    Your current leave entitlements and remaining days
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                      <div>
+                        <p className="text-sm font-medium text-blue-900">Annual Leave</p>
+                        <p className="text-xs text-blue-600">Vacation days</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-blue-900">{profile.annualLeaveBalance ?? 0}</p>
+                        <p className="text-xs text-blue-600">days left</p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-lg font-bold text-blue-900">{profile.annualLeaveBalance ?? 0}</p>
-                      <p className="text-xs text-blue-600">days left</p>
+
+                    <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                      <div>
+                        <p className="text-sm font-medium text-green-900">Sick Leave</p>
+                        <p className="text-xs text-green-600">Medical leave</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-green-900">{profile.sickLeaveBalance ?? 0}</p>
+                        <p className="text-xs text-green-600">days left</p>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
+                      <div>
+                        <p className="text-sm font-medium text-purple-900">Personal Leave</p>
+                        <p className="text-xs text-purple-600">Personal time</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-purple-900">{profile.personalLeaveBalance ?? 0}</p>
+                        <p className="text-xs text-purple-600">days left</p>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                      <div>
+                        <p className="text-sm font-medium text-red-900">Emergency Leave</p>
+                        <p className="text-xs text-red-600">Urgent situations</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-red-900">{profile.emergencyLeaveBalance ?? 0}</p>
+                        <p className="text-xs text-red-600">days left</p>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                    <div>
-                      <p className="text-sm font-medium text-green-900">Sick Leave</p>
-                      <p className="text-xs text-green-600">Medical leave</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-lg font-bold text-green-900">{profile.sickLeaveBalance ?? 0}</p>
-                      <p className="text-xs text-green-600">days left</p>
-                    </div>
+                  <div className="pt-4 border-t">
+                    <p className="text-xs text-gray-500">
+                      Leave balances are updated automatically when requests are approved.
+                      Contact HR for any discrepancies.
+                    </p>
                   </div>
+                </CardContent>
+              </Card>
 
-                  <div className="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
-                    <div>
-                      <p className="text-sm font-medium text-purple-900">Personal Leave</p>
-                      <p className="text-xs text-purple-600">Personal time</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-lg font-bold text-purple-900">{profile.personalLeaveBalance ?? 0}</p>
-                      <p className="text-xs text-purple-600">days left</p>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-                    <div>
-                      <p className="text-sm font-medium text-red-900">Emergency Leave</p>
-                      <p className="text-xs text-red-600">Urgent situations</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-lg font-bold text-red-900">{profile.emergencyLeaveBalance ?? 0}</p>
-                      <p className="text-xs text-red-600">days left</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t">
-                  <p className="text-xs text-gray-500">
-                    Leave balances are updated automatically when requests are approved.
-                    Contact HR for any discrepancies.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Settings className="h-5 w-5" />
-                  <span>Quick Actions</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button variant="outline" className="w-full justify-start" asChild>
-                  <a href="/leave-request/new">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    Submit Leave Request
-                  </a>
-                </Button>
-                <Button variant="outline" className="w-full justify-start" asChild>
-                  <a href="/leave-request/view">
-                    <User className="mr-2 h-4 w-4" />
-                    View My Requests
-                  </a>
-                </Button>
-                <Button variant="outline" className="w-full justify-start" asChild>
-                  <a href="/public-holidays">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    View Public Holidays
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Settings className="h-5 w-5" />
+                    <span>Quick Actions</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {profile.role === 'employee' && (
+                    <>
+                      <Button variant="outline" className="w-full justify-start" asChild>
+                        <a href="/leave-request/new">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          Submit Leave Request
+                        </a>
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start" asChild>
+                        <a href="/leave-request/view">
+                          <User className="mr-2 h-4 w-4" />
+                          View My Requests
+                        </a>
+                      </Button>
+                    </>
+                  )}
+                  {profile.role === 'manager' && (
+                    <Button variant="outline" className="w-full justify-start" asChild>
+                      <a href="/manager/approvals">
+                        <User className="mr-2 h-4 w-4" />
+                        Review Pending Approvals
+                      </a>
+                    </Button>
+                  )}
+                  {profile.role === 'admin' && (
+                    <Button variant="outline" className="w-full justify-start" asChild>
+                      <a href="/admin/users">
+                        <User className="mr-2 h-4 w-4" />
+                        Manage Users
+                      </a>
+                    </Button>
+                  )}
+                  <Button variant="outline" className="w-full justify-start" asChild>
+                    <a href="/public-holidays">
+                      <Calendar className="mr-2 h-4 w-4" />
+                      View Public Holidays
+                    </a>
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          
+          {/* Quick Actions for Managers and Admins */}
+          {(profile.role === 'manager' || profile.role === 'admin') && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Settings className="h-5 w-5" />
+                    <span>Quick Actions</span>
+                  </CardTitle>
+                  <CardDescription>
+                    {profile.role === 'admin' ? 'Administrative functions' : 'Management functions'}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {profile.role === 'manager' && (
+                    <>
+                      <Button variant="outline" className="w-full justify-start" asChild>
+                        <a href="/manager/approvals">
+                          <User className="mr-2 h-4 w-4" />
+                          Review Pending Approvals
+                        </a>
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start" asChild>
+                        <a href="/reports">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          View Reports
+                        </a>
+                      </Button>
+                    </>
+                  )}
+                  {profile.role === 'admin' && (
+                    <>
+                      <Button variant="outline" className="w-full justify-start" asChild>
+                        <a href="/admin/users">
+                          <User className="mr-2 h-4 w-4" />
+                          Manage Users
+                        </a>
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start" asChild>
+                        <a href="/manager/approvals">
+                          <User className="mr-2 h-4 w-4" />
+                          Review Pending Approvals
+                        </a>
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start" asChild>
+                        <a href="/reports">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          View Reports
+                        </a>
+                      </Button>
+                    </>
+                  )}
+                  <Button variant="outline" className="w-full justify-start" asChild>
+                    <a href="/public-holidays">
+                      <Calendar className="mr-2 h-4 w-4" />
+                      View Public Holidays
+                    </a>
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
     </DashboardLayout>

@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { LeaveRequestModule } from './leave-request/leave-request.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { LeaveRequestModule } from './leave-request/leave-request.module';
     AuthModule,
     UsersModule,
     LeaveRequestModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
