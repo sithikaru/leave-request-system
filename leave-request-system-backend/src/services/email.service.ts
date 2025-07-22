@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { User } from '../users/entities/user.entity';
 import { LeaveRequest } from '../leave-request/entities/leave-request.entity';
@@ -6,23 +6,44 @@ import { LeaveRequest } from '../leave-request/entities/leave-request.entity';
 @Injectable()
 export class EmailService {
   private transporter: nodemailer.Transporter;
+  private readonly logger = new Logger(EmailService.name);
 
   constructor() {
-    // Configure with your email service (Gmail, SendGrid, etc.)
+    // Configure with your email service
     this.transporter = nodemailer.createTransport({
-      // For development, you can use ethereal email or configure your SMTP
-      host: process.env.SMTP_HOST || 'smtp.ethereal.email',
+      host: process.env.SMTP_HOST,
       port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false,
+      secure: false, // true for 465, false for other ports
       auth: {
-        user: process.env.SMTP_USER || 'ethereal.user@ethereal.email',
-        pass: process.env.SMTP_PASS || 'ethereal.pass',
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false, // For development only
       },
     });
+
+    // Verify SMTP connection configuration
+    this.verifyConnection();
+  }
+
+  private async verifyConnection() {
+    try {
+      await this.transporter.verify();
+      this.logger.log('SMTP connection verified successfully');
+    } catch (error) {
+      this.logger.error('SMTP connection verification failed:', error.message);
+      this.logger.warn('Email notifications will not work. Please check your SMTP configuration.');
+    }
   }
 
   async sendLeaveRequestNotification(leaveRequest: LeaveRequest, manager: User) {
-    if (!manager.emailNotifications) return;
+    if (!manager.emailNotifications) {
+      this.logger.log(`Manager ${manager.email} has email notifications disabled`);
+      return;
+    }
+
+    this.logger.log(`Attempting to send leave request notification to ${manager.email}`);
 
     const mailOptions = {
       from: process.env.FROM_EMAIL || 'noreply@company.com',
@@ -50,15 +71,22 @@ export class EmailService {
     };
 
     try {
-      await this.transporter.sendMail(mailOptions);
-      console.log(`Email sent to ${manager.email} for leave request ${leaveRequest.id}`);
+      const info = await this.transporter.sendMail(mailOptions);
+      this.logger.log(`Email sent to ${manager.email} for leave request ${leaveRequest.id}. Message ID: ${info.messageId}`);
+      return info;
     } catch (error) {
-      console.error('Failed to send email:', error);
+      this.logger.error(`Failed to send email to ${manager.email}:`, error.message);
+      throw error;
     }
   }
 
   async sendLeaveStatusUpdate(leaveRequest: LeaveRequest) {
-    if (!leaveRequest.employee.emailNotifications) return;
+    if (!leaveRequest.employee.emailNotifications) {
+      this.logger.log(`Employee ${leaveRequest.employee.email} has email notifications disabled`);
+      return;
+    }
+
+    this.logger.log(`Attempting to send leave status update to ${leaveRequest.employee.email}`);
 
     const status = leaveRequest.status.toUpperCase();
     const statusColor = leaveRequest.status === 'approved' ? '#28a745' : '#dc3545';
@@ -82,10 +110,12 @@ export class EmailService {
     };
 
     try {
-      await this.transporter.sendMail(mailOptions);
-      console.log(`Status update email sent to ${leaveRequest.employee.email}`);
+      const info = await this.transporter.sendMail(mailOptions);
+      this.logger.log(`Status update email sent to ${leaveRequest.employee.email}. Message ID: ${info.messageId}`);
+      return info;
     } catch (error) {
-      console.error('Failed to send status update email:', error);
+      this.logger.error(`Failed to send status update email to ${leaveRequest.employee.email}:`, error.message);
+      throw error;
     }
   }
 }

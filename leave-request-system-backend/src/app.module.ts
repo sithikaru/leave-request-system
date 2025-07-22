@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { LeaveRequestModule } from './leave-request/leave-request.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { ServicesModule } from './services/services.module';
+import { TestController } from './test/test.controller';
 
 @Module({
   imports: [
@@ -27,8 +29,9 @@ import { AnalyticsModule } from './analytics/analytics.module';
     UsersModule,
     LeaveRequestModule,
     AnalyticsModule,
+    ServicesModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, TestController],
   providers: [AppService],
 })
 export class AppModule {}
