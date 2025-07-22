@@ -88,7 +88,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-2 text-gray-600">Loading...</p>
+          <p className="mt-2 text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
@@ -114,12 +114,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         flex flex-col h-full border-r border-border
       `}>
         {/* Logo/Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border bg-blue-600 text-white lg:bg-card lg:text-card-foreground">
+        <div className="flex items-center justify-between p-4 border-b border-border bg-primary text-primary-foreground lg:bg-card lg:text-card-foreground">
           <h1 className="text-xl font-bold">Leave System</h1>
           <Button
             variant="ghost"
             size="sm"
-            className="lg:hidden text-white hover:bg-blue-700 lg:text-card-foreground lg:hover:bg-accent"
+            className="lg:hidden text-primary-foreground hover:bg-primary/90 lg:text-card-foreground lg:hover:bg-accent"
             onClick={() => setIsSidebarOpen(false)}
           >
             <X className="h-5 w-5" />

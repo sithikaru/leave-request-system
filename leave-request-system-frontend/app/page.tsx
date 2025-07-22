@@ -24,10 +24,10 @@ export default function Home() {
         {/* Header */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-6">
-            <Building2 className="h-12 w-12 text-blue-600 mr-3" />
-            <h1 className="text-4xl font-bold text-gray-900">Leave Request System</h1>
+            <Building2 className="h-12 w-12 text-primary mr-3" />
+            <h1 className="text-4xl font-bold text-foreground">Leave Request System</h1>
           </div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Streamline your organization's leave management with our comprehensive, 
             role-based system designed for modern workplaces.
           </p>
@@ -37,7 +37,7 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           <Card className="text-center">
             <CardHeader>
-              <Users className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+              <Users className="h-12 w-12 text-primary mx-auto mb-4" />
               <CardTitle>Role-Based Access</CardTitle>
             </CardHeader>
             <CardContent>

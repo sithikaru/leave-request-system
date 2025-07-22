@@ -78,7 +78,7 @@ export default function PublicHolidaysPage() {
     return (
       <DashboardLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       </DashboardLayout>
     );
@@ -90,11 +90,11 @@ export default function PublicHolidaysPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
               <Calendar className="h-6 w-6" />
               Public Holidays
             </h1>
-            <p className="text-gray-600">View company public holidays and plan your leave</p>
+            <p className="text-muted-foreground">View company public holidays and plan your leave</p>
           </div>
           {canAccessAdminPanel && (
             <Button onClick={() => setShowAddForm(!showAddForm)} className="w-full sm:w-auto">
@@ -160,8 +160,8 @@ export default function PublicHolidaysPage() {
           {holidays.length === 0 ? (
             <Card className="col-span-full">
               <CardContent className="flex flex-col items-center justify-center py-12">
-                <Calendar className="h-12 w-12 text-gray-400 mb-4" />
-                <p className="text-gray-500 text-center">No public holidays configured</p>
+                <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
+                <p className="text-muted-foreground text-center">No public holidays configured</p>
                 {canAccessAdminPanel && (
                   <Button 
                     variant="outline" 
@@ -180,7 +180,7 @@ export default function PublicHolidaysPage() {
                   <div className="flex items-start justify-between">
                     <CardTitle className="text-lg">{holiday.name}</CardTitle>
                     {isUpcoming(holiday.date) && (
-                      <Badge variant="secondary" className="bg-green-100 text-green-800">
+                      <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                         Upcoming
                       </Badge>
                     )}
@@ -191,7 +191,7 @@ export default function PublicHolidaysPage() {
                 </CardHeader>
                 {holiday.description && (
                   <CardContent>
-                    <p className="text-sm text-gray-600">{holiday.description}</p>
+                    <p className="text-sm text-muted-foreground">{holiday.description}</p>
                   </CardContent>
                 )}
               </Card>

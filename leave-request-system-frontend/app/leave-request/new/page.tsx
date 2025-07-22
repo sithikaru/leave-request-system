@@ -93,8 +93,8 @@ export default function NewLeaveRequestPage() {
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">New Leave Request</h1>
-            <p className="text-gray-600">Submit a new leave request for approval</p>
+            <h1 className="text-2xl font-bold text-foreground">New Leave Request</h1>
+            <p className="text-muted-foreground">Submit a new leave request for approval</p>
           </div>
         </div>
 
@@ -163,18 +163,18 @@ export default function NewLeaveRequestPage() {
                     ))}
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground">
                   Half-day leaves count as 0.5 days towards your balance
                 </p>
               </div>
 
               {formData.startDate && formData.endDate && (
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200 dark:bg-blue-950 dark:border-blue-800">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                    <p className="text-blue-800">
+                    <p className="text-blue-800 dark:text-blue-200">
                       <strong>Duration:</strong> {calculateDays()} day{calculateDays() !== 1 ? 's' : ''}
                     </p>
-                    <p className="text-blue-800">
+                    <p className="text-blue-800 dark:text-blue-200">
                       <strong>Type:</strong> {formData.duration.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                     </p>
                   </div>
@@ -216,7 +216,7 @@ export default function NewLeaveRequestPage() {
             <CardTitle>Leave Request Guidelines</CardTitle>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-2 text-sm text-gray-600">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>• Annual leave requests should be submitted at least 2 weeks in advance</li>
               <li>• Emergency leave can be submitted with shorter notice</li>
               <li>• Sick leave may require medical documentation for periods longer than 3 days</li>

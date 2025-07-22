@@ -177,8 +177,8 @@ export default function ReportsPage() {
     return (
       <DashboardLayout>
         <div className="text-center py-12">
-          <h3 className="text-lg font-medium text-gray-900">Access Restricted</h3>
-          <p className="text-gray-500">Only managers and administrators can access analytics and reports.</p>
+          <h3 className="text-lg font-medium text-foreground">Access Restricted</h3>
+          <p className="text-muted-foreground">Only managers and administrators can access analytics and reports.</p>
         </div>
       </DashboardLayout>
     );
@@ -190,8 +190,8 @@ export default function ReportsPage() {
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Reports & Analytics</h1>
-            <p className="text-gray-600">Comprehensive leave management insights and data exports</p>
+            <h1 className="text-2xl font-bold text-foreground">Reports & Analytics</h1>
+            <p className="text-muted-foreground">Comprehensive leave management insights and data exports</p>
           </div>
           <div className="flex space-x-2">
             <Button
@@ -227,7 +227,7 @@ export default function ReportsPage() {
             {isLoading && (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-2 text-gray-600">Loading analytics...</p>
+                <p className="mt-2 text-muted-foreground">Loading analytics...</p>
               </div>
             )}
 
@@ -350,12 +350,12 @@ export default function ReportsPage() {
               <Card>
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="p-2 bg-blue-100 rounded-lg">
-                      <FileSpreadsheet className="h-6 w-6 text-blue-600" />
+                    <div className="p-2 bg-blue-100 rounded-lg dark:bg-blue-900">
+                      <FileSpreadsheet className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold">Leave Requests Report</h3>
-                      <p className="text-sm text-gray-600">Download detailed leave request reports</p>
+                      <p className="text-sm text-muted-foreground">Download detailed leave request reports</p>
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -388,7 +388,7 @@ export default function ReportsPage() {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold">Leave Balances Report</h3>
-                      <p className="text-sm text-gray-600">Export current leave balance data</p>
+                      <p className="text-sm text-muted-foreground">Export current leave balance data</p>
                     </div>
                   </div>
                   <div className="space-y-2">

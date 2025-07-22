@@ -73,15 +73,15 @@ export default function DashboardPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "pending":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
       case "approved":
-        return "bg-green-100 text-green-800";
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
       case "rejected":
-        return "bg-red-100 text-red-800";
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
       case "cancelled":
-        return "bg-gray-100 text-gray-800";
+        return "bg-muted text-muted-foreground";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-muted text-muted-foreground";
     }
   };
 
@@ -108,16 +108,11 @@ export default function DashboardPage() {
         {/* Welcome Section */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              Welcome back, {user.name}!
+            <h1 className="text-2xl font-bold text-foreground">
+              Welcome, {user?.firstName} {user?.lastName}!
             </h1>
-            <p className="text-gray-600">
-              {user.role === 'employee' 
-                ? "Here's an overview of your leave requests and activities."
-                : user.role === 'manager'
-                ? "Here's an overview of team leave requests and management activities."
-                : "Here's an overview of system activities and administrative functions."
-              }
+            <p className="text-muted-foreground">
+              Your dashboard overview and recent leave requests
             </p>
           </div>
           {user.role === 'employee' && (
@@ -189,9 +184,9 @@ export default function DashboardPage() {
           <CardContent>
             {recentRequests.length === 0 ? (
               <div className="text-center py-8">
-                <FileText className="mx-auto h-12 w-12 text-gray-400" />
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No requests yet</h3>
-                <p className="mt-1 text-sm text-gray-500">
+                <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
+                <h3 className="mt-2 text-sm font-medium text-foreground">No requests yet</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
                   Get started by creating your first leave request.
                 </p>
                 <div className="mt-6">
@@ -208,7 +203,7 @@ export default function DashboardPage() {
                 {recentRequests.map((request) => (
                   <div
                     key={request.id}
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                    className="flex items-center justify-between p-4 bg-muted rounded-lg"
                   >
                     <div className="flex items-center space-x-4">
                       {getStatusIcon(request.status)}
@@ -219,7 +214,7 @@ export default function DashboardPage() {
                             {request.status}
                           </Badge>
                         </div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-muted-foreground">
                           {new Date(request.startDate).toLocaleDateString()} - {new Date(request.endDate).toLocaleDateString()}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">{request.reason}</p>
