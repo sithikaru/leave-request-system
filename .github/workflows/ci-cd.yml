@@ -54,7 +54,7 @@ jobs:
     - name: Build applications
       run: npm run build
 
-  deploy-backend:
+  deploy-backend-render:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
@@ -62,25 +62,20 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Use Node.js
-      uses: actions/setup-node@v4
+    - name: Deploy to Render
+      uses: johnbeynon/render-deploy-action@v0.0.8
       with:
-        node-version: '20.x'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm run install:all
-    
-    - name: Build backend
-      run: npm run backend:build
-    
-    - name: Deploy to Railway (Backend)
-      uses: blinker-iot/railway-deploy-action@v2
-      with:
-        railway_token: ${{ secrets.RAILWAY_TOKEN }}
-        service: 'leave-request-backend'
+        service-id: ${{ secrets.RENDER_SERVICE_ID }}
+        api-key: ${{ secrets.RENDER_API_KEY }}
         
-  deploy-frontend:
+    - name: Verify Render Deployment
+      run: |
+        echo "Waiting for deployment to complete..."
+        sleep 60
+        curl -f ${{ secrets.RENDER_SERVICE_URL }}/api/health || exit 1
+        echo "Backend deployment successful!"
+        
+  deploy-frontend-vercel:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
@@ -104,7 +99,7 @@ jobs:
         cd leave-request-system-frontend
         npm run build
       env:
-        NEXT_PUBLIC_API_URL: ${{ secrets.BACKEND_URL }}
+        NEXT_PUBLIC_API_URL: ${{ secrets.RENDER_SERVICE_URL }}
     
     - name: Deploy to Vercel
       uses: amondnet/vercel-action@v25
