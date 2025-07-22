@@ -210,6 +210,85 @@ export const api = {
       axiosInstance.get('/leave-request/reports/balance-report-pdf', {
         responseType: 'blob'
       }),
+
+    // Public Holidays
+    getPublicHolidays: (country?: string, year?: number) =>
+      axiosInstance.get('/public-holidays', { 
+        params: { country, year } 
+      }),
+
+    getCountries: () =>
+      axiosInstance.get('/public-holidays/countries'),
+
+    fetchHolidays: (country: string, year: number) =>
+      axiosInstance.get(`/public-holidays/fetch/${country}/${year}`),
+
+    createPublicHoliday: (holidayData: {
+      name: string;
+      date: string;
+      description?: string;
+      country?: string;
+    }) =>
+      axiosInstance.post('/public-holidays', holidayData),
+
+    updatePublicHoliday: (id: number, holidayData: {
+      name?: string;
+      date?: string;
+      description?: string;
+      isActive?: boolean;
+    }) =>
+      axiosInstance.patch(`/public-holidays/${id}`, holidayData),
+
+    deletePublicHoliday: (id: number) =>
+      axiosInstance.delete(`/public-holidays/${id}`),
+  },
+
+  // Paid Leave endpoints
+  paidLeave: {
+    // Grant paid leave (managers/admins only)
+    create: (paidLeaveData: {
+      employeeId: number;
+      type: string;
+      days: number;
+      reason: string;
+      notes?: string;
+      deductFromBalance: boolean;
+    }) =>
+      axiosInstance.post('/paid-leave', paidLeaveData),
+
+    // Get all granted paid leaves (managers/admins)
+    getAll: () =>
+      axiosInstance.get('/paid-leave'),
+
+    // Get my granted paid leaves
+    getMy: () =>
+      axiosInstance.get('/paid-leave/my'),
+
+    // Get paid leaves for specific employee
+    getByEmployee: (employeeId: number) =>
+      axiosInstance.get(`/paid-leave/employee/${employeeId}`),
+
+    // Get stats for employee
+    getStats: (employeeId: number) =>
+      axiosInstance.get(`/paid-leave/stats/${employeeId}`),
+
+    // Get specific paid leave record
+    getById: (id: number) =>
+      axiosInstance.get(`/paid-leave/${id}`),
+
+    // Update paid leave record
+    update: (id: number, updateData: {
+      type?: string;
+      days?: number;
+      reason?: string;
+      notes?: string;
+      deductFromBalance?: boolean;
+    }) =>
+      axiosInstance.patch(`/paid-leave/${id}`, updateData),
+
+    // Delete paid leave record (admin only)
+    delete: (id: number) =>
+      axiosInstance.delete(`/paid-leave/${id}`),
   },
 
   // Analytics endpoints

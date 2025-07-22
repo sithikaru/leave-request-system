@@ -14,6 +14,9 @@ export class PublicHoliday {
   @Column({ length: 255, nullable: true })
   description: string;
 
+  @Column({ length: 2, default: 'LK' })
+  country: string;
+
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 

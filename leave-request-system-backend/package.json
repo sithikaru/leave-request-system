@@ -30,6 +30,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/puppeteer": "^5.4.7",
     "bcryptjs": "^3.0.2",
+    "date-holidays": "^3.24.4",
     "exceljs": "^4.4.0",
     "jspdf": "^3.0.1",
     "mysql2": "^3.14.1",

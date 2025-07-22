@@ -323,8 +323,20 @@ export default function SettingsPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {profile.role === 'manager' && (
+                  {profile.role === 'admin' && (
                     <>
+                      <Button variant="outline" className="w-full justify-start" asChild>
+                        <a href="/admin/users">
+                          <User className="mr-2 h-4 w-4" />
+                          Manage Users
+                        </a>
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start" asChild>
+                        <a href="/admin/paid-leaves">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          Grant Paid Leaves
+                        </a>
+                      </Button>
                       <Button variant="outline" className="w-full justify-start" asChild>
                         <a href="/manager/approvals">
                           <User className="mr-2 h-4 w-4" />
@@ -339,12 +351,12 @@ export default function SettingsPage() {
                       </Button>
                     </>
                   )}
-                  {profile.role === 'admin' && (
+                  {profile.role === 'manager' && (
                     <>
                       <Button variant="outline" className="w-full justify-start" asChild>
-                        <a href="/admin/users">
-                          <User className="mr-2 h-4 w-4" />
-                          Manage Users
+                        <a href="/admin/paid-leaves">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          Grant Paid Leaves
                         </a>
                       </Button>
                       <Button variant="outline" className="w-full justify-start" asChild>
