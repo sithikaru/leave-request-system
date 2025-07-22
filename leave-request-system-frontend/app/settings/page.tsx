@@ -298,22 +298,6 @@ export default function SettingsPage() {
                       </Button>
                     </>
                   )}
-                  {profile.role === 'manager' && (
-                    <Button variant="outline" className="w-full justify-start" asChild>
-                      <a href="/manager/approvals">
-                        <User className="mr-2 h-4 w-4" />
-                        Review Pending Approvals
-                      </a>
-                    </Button>
-                  )}
-                  {profile.role === 'admin' && (
-                    <Button variant="outline" className="w-full justify-start" asChild>
-                      <a href="/admin/users">
-                        <User className="mr-2 h-4 w-4" />
-                        Manage Users
-                      </a>
-                    </Button>
-                  )}
                   <Button variant="outline" className="w-full justify-start" asChild>
                     <a href="/public-holidays">
                       <Calendar className="mr-2 h-4 w-4" />
