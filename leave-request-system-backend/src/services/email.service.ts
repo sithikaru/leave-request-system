@@ -118,47 +118,4 @@ export class EmailService {
       throw error;
     }
   }
-
-  async sendPaidLeaveNotification(paidLeave: any) {
-    if (!paidLeave.employee.emailNotifications) {
-      this.logger.log(`Employee ${paidLeave.employee.email} has email notifications disabled`);
-      return;
-    }
-
-    this.logger.log(`Attempting to send paid leave notification to ${paidLeave.employee.email}`);
-
-    const mailOptions = {
-      from: process.env.FROM_EMAIL || 'noreply@company.com',
-      to: paidLeave.employee.email,
-      subject: `Paid Leave Granted - ${paidLeave.days} Days Added`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #28a745;">Paid Leave Granted!</h2>
-          <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
-            <p><strong>Granted By:</strong> ${paidLeave.granter.name}</p>
-            <p><strong>Type:</strong> ${paidLeave.type}</p>
-            <p><strong>Days:</strong> ${paidLeave.days}</p>
-            <p><strong>Reason:</strong> ${paidLeave.reason}</p>
-            ${paidLeave.notes ? `<p><strong>Notes:</strong> ${paidLeave.notes}</p>` : ''}
-            <p><strong>Balance Impact:</strong> ${paidLeave.deductFromBalance ? 'Will deduct from your balance when used' : 'Added to your annual leave balance'}</p>
-          </div>
-          <p style="margin-top: 20px;">
-            <a href="${process.env.FRONTEND_URL}/settings"
-               style="background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">
-              View Leave Balance
-            </a>
-          </p>
-        </div>
-      `,
-    };
-
-    try {
-      const info = await this.transporter.sendMail(mailOptions);
-      this.logger.log(`Paid leave notification sent to ${paidLeave.employee.email}. Message ID: ${info.messageId}`);
-      return info;
-    } catch (error) {
-      this.logger.error(`Failed to send paid leave notification to ${paidLeave.employee.email}:`, error.message);
-      throw error;
-    }
-  }
 }
