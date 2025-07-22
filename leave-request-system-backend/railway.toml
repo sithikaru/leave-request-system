@@ -1,0 +1,24 @@
+# Railway Backend Deployment
+$schema: https://railway.app/railway.schema.json
+version: 2
+
+deploy:
+  startCommand: npm run start:prod
+  buildCommand: npm run build
+  restartPolicyType: on-failure
+  restartPolicyMaxRetries: 3
+
+environments:
+  production:
+    build:
+      buildCommand: npm run build
+    deploy:
+      startCommand: npm run start:prod
+    variables:
+      NODE_ENV: production
+      PORT: ${{RAILWAY_PORT}}
+
+healthcheck:
+  path: /api/health
+  port: ${{RAILWAY_PORT}}
+  protocol: http

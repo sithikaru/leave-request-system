@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: leave-request-config
+  namespace: leave-request-system
+data:
+  NODE_ENV: "production"
+  DATABASE_HOST: "mysql-service"
+  DATABASE_PORT: "3306"
+  DATABASE_NAME: "leave_request_db"
+  API_PREFIX: "api/v1"
+  JWT_EXPIRES_IN: "24h"
+  FRONTEND_URL: "https://your-domain.com"
+  RATE_LIMIT_TTL: "60"
+  RATE_LIMIT_LIMIT: "10"
+  BCRYPT_ROUNDS: "12"

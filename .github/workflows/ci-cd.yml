@@ -1,0 +1,115 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: leave_request_db
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm run install:all
+    
+    - name: Run backend tests
+      run: npm run backend:test
+      env:
+        DATABASE_HOST: localhost
+        DATABASE_PORT: 3306
+        DATABASE_USERNAME: root
+        DATABASE_PASSWORD: root
+        DATABASE_NAME: leave_request_db
+        JWT_SECRET: test-jwt-secret
+    
+    - name: Run frontend lint
+      run: npm run frontend:lint
+    
+    - name: Build applications
+      run: npm run build
+
+  deploy-backend:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm run install:all
+    
+    - name: Build backend
+      run: npm run backend:build
+    
+    - name: Deploy to Railway (Backend)
+      uses: blinker-iot/railway-deploy-action@v2
+      with:
+        railway_token: ${{ secrets.RAILWAY_TOKEN }}
+        service: 'leave-request-backend'
+        
+  deploy-frontend:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        cd leave-request-system-frontend
+        npm ci
+    
+    - name: Build frontend
+      run: |
+        cd leave-request-system-frontend
+        npm run build
+      env:
+        NEXT_PUBLIC_API_URL: ${{ secrets.BACKEND_URL }}
+    
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        working-directory: ./leave-request-system-frontend
