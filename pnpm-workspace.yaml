@@ -1,8 +1,0 @@
-# Workspace configuration for the mono repo
-root: true
-
-packages:
-  - "packages/*"
-  - "apps/*"
-  - "leave-request-system-backend"
-  - "leave-request-system-frontend"

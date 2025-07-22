@@ -31,14 +31,38 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return await this.userRepository.find({
-      select: ['id', 'name', 'email', 'role', 'createdAt', 'updatedAt'],
+      select: [
+        'id', 
+        'name', 
+        'email', 
+        'role', 
+        'annualLeaveBalance', 
+        'sickLeaveBalance', 
+        'personalLeaveBalance', 
+        'emergencyLeaveBalance',
+        'emailNotifications',
+        'createdAt', 
+        'updatedAt'
+      ],
     });
   }
 
   async findOne(id: number): Promise<User | null> {
     return await this.userRepository.findOne({
       where: { id },
-      select: ['id', 'name', 'email', 'role', 'createdAt', 'updatedAt'],
+      select: [
+        'id', 
+        'name', 
+        'email', 
+        'role', 
+        'annualLeaveBalance', 
+        'sickLeaveBalance', 
+        'personalLeaveBalance', 
+        'emergencyLeaveBalance',
+        'emailNotifications',
+        'createdAt', 
+        'updatedAt'
+      ],
     });
   }
 

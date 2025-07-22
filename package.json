@@ -1,64 +1,22 @@
 {
-  "name": "leave-request-system-monorepo",
+  "name": "leave-request-system",
   "version": "1.0.0",
-  "private": true,
-  "description": "Full-stack leave request management system mono repo with NestJS backend and Next.js frontend",
-  "workspaces": [
-    "leave-request-system-backend",
-    "leave-request-system-frontend"
-  ],
+  "description": "Full-stack leave request management system with NestJS backend and Next.js frontend",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
-    "dev:backend": "cd leave-request-system-backend && npm run start:dev",
-    "dev:frontend": "cd leave-request-system-frontend && npm run dev",
+    "start": "./start-dev.sh",
+    "dev": "./start-dev.sh",
     "backend:dev": "cd leave-request-system-backend && npm run start:dev",
     "frontend:dev": "cd leave-request-system-frontend && npm run dev",
-    "build": "npm run backend:build && npm run frontend:build",
     "backend:build": "cd leave-request-system-backend && npm run build",
     "frontend:build": "cd leave-request-system-frontend && npm run build",
-    "start": "concurrently \"npm run backend:start\" \"npm run frontend:start\"",
-    "backend:start": "cd leave-request-system-backend && npm run start:prod",
-    "frontend:start": "cd leave-request-system-frontend && npm run start",
-    "test": "npm run backend:test && npm run frontend:lint",
+    "build": "npm run backend:build && npm run frontend:build",
     "backend:test": "cd leave-request-system-backend && npm run test",
-    "backend:test:e2e": "cd leave-request-system-backend && npm run test:e2e",
-    "frontend:lint": "cd leave-request-system-frontend && npm run lint",
-    "install:all": "npm install && cd leave-request-system-backend && npm install && cd ../leave-request-system-frontend && npm install",
-    "clean": "rm -rf node_modules leave-request-system-backend/node_modules leave-request-system-backend/dist leave-request-system-frontend/node_modules leave-request-system-frontend/.next",
-    "docker:build": "docker-compose build",
-    "docker:up": "docker-compose up -d",
-    "docker:down": "docker-compose down",
-    "docker:logs": "docker-compose logs -f",
-    "docker:clean": "docker-compose down -v --remove-orphans",
-    "format": "prettier --write \"**/*.{js,ts,tsx,json,md,yml,yaml}\"",
-    "lint": "eslint . --ext .js,.ts,.tsx --fix",
-    "typecheck": "cd leave-request-system-frontend && npx tsc --noEmit && cd ../leave-request-system-backend && npx tsc --noEmit",
-    "prepare": "husky install || true"
+    "frontend:test": "cd leave-request-system-frontend && npm run build",
+    "test": "npm run backend:test && npm run frontend:test",
+    "install:all": "cd leave-request-system-backend && npm install && cd ../leave-request-system-frontend && npm install",
+    "clean": "rm -rf leave-request-system-backend/node_modules leave-request-system-backend/dist leave-request-system-frontend/node_modules leave-request-system-frontend/.next"
   },
-  "devDependencies": {
-    "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-conventional": "^18.4.3",
-    "@types/node": "^20.10.4",
-    "@typescript-eslint/eslint-plugin": "^6.13.1",
-    "@typescript-eslint/parser": "^6.13.1",
-    "concurrently": "^8.2.2",
-    "eslint": "^8.54.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.1.0",
-    "prettier": "^3.1.0",
-    "typescript": "^5.3.2"
-  },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0",
-    "pnpm": ">=8.0.0"
-  },
-  "packageManager": "pnpm@8.14.0",
   "keywords": [
-    "monorepo",
     "nestjs",
     "nextjs",
     "typescript",
@@ -67,25 +25,11 @@
     "rbac",
     "leave-management",
     "shadcn",
-    "tailwind",
-    "docker",
-    "deployment-ready"
+    "tailwind"
   ],
-  "author": "Your Name <your.email@example.com>",
+  "author": "Your Name",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/leave-request-system.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yourusername/leave-request-system/issues"
-  },
-  "homepage": "https://github.com/yourusername/leave-request-system#readme",
-  "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": ["eslint --fix", "prettier --write"],
-    "*.{json,md,yml,yaml}": ["prettier --write"]
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

@@ -225,7 +225,7 @@ export default function SettingsPage() {
                       <p className="text-xs text-blue-600">Vacation days</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-bold text-blue-900">{profile.annualLeaveBalance || 21}</p>
+                      <p className="text-lg font-bold text-blue-900">{profile.annualLeaveBalance ?? 0}</p>
                       <p className="text-xs text-blue-600">days left</p>
                     </div>
                   </div>
@@ -236,7 +236,7 @@ export default function SettingsPage() {
                       <p className="text-xs text-green-600">Medical leave</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-bold text-green-900">{profile.sickLeaveBalance || 10}</p>
+                      <p className="text-lg font-bold text-green-900">{profile.sickLeaveBalance ?? 0}</p>
                       <p className="text-xs text-green-600">days left</p>
                     </div>
                   </div>
@@ -247,7 +247,7 @@ export default function SettingsPage() {
                       <p className="text-xs text-purple-600">Personal time</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-bold text-purple-900">{profile.personalLeaveBalance || 5}</p>
+                      <p className="text-lg font-bold text-purple-900">{profile.personalLeaveBalance ?? 0}</p>
                       <p className="text-xs text-purple-600">days left</p>
                     </div>
                   </div>
@@ -258,7 +258,7 @@ export default function SettingsPage() {
                       <p className="text-xs text-red-600">Urgent situations</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-bold text-red-900">{profile.emergencyLeaveBalance || 3}</p>
+                      <p className="text-lg font-bold text-red-900">{profile.emergencyLeaveBalance ?? 0}</p>
                       <p className="text-xs text-red-600">days left</p>
                     </div>
                   </div>

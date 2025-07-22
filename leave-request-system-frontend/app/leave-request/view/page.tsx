@@ -53,13 +53,20 @@ export default function ViewLeaveRequestsPage() {
       const response = await api.auth.getProfile();
       const user = response.data;
       setLeaveBalance({
-        annualLeave: user.annualLeaveBalance || 21,
-        sickLeave: user.sickLeaveBalance || 10,
-        personalLeave: user.personalLeaveBalance || 5,
-        emergencyLeave: user.emergencyLeaveBalance || 3,
+        annualLeave: user.annualLeaveBalance || 0,
+        sickLeave: user.sickLeaveBalance || 0,
+        personalLeave: user.personalLeaveBalance || 0,
+        emergencyLeave: user.emergencyLeaveBalance || 0,
       });
     } catch (error: any) {
       console.error("Failed to fetch leave balance:", error);
+      // Set default values only if API call fails
+      setLeaveBalance({
+        annualLeave: 25,
+        sickLeave: 10,
+        personalLeave: 3,
+        emergencyLeave: 5,
+      });
     }
   };
 
@@ -67,6 +74,8 @@ export default function ViewLeaveRequestsPage() {
     try {
       const response = await api.leaveRequests.getMy();
       setRequests(response.data);
+      // Refresh leave balance as it may have changed due to approved requests
+      await fetchLeaveBalance();
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Failed to fetch leave requests");
     } finally {
